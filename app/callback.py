@@ -1,7 +1,7 @@
 import requests
 import os
 
-def send_final_callback(session_id, session):
+def send_final_callback(session_id: str, session: dict):
     payload = {
         "sessionId": session_id,
         "scamDetected": True,
@@ -13,11 +13,14 @@ def send_final_callback(session_id, session):
             "phoneNumbers": session["phoneNumbers"],
             "suspiciousKeywords": session["keywords"]
         },
-        "agentNotes": "Scammer used urgency and payment request tactics"
+        "agentNotes": "Scammer used urgency and payment redirection tactics"
     }
 
-    requests.post(
-        os.getenv("GUVI_CALLBACK"),
-        json=payload,
-        timeout=5
-    )
+    try:
+        requests.post(
+            os.getenv("GUVI_CALLBACK"),
+            json=payload,
+            timeout=5
+        )
+    except Exception:
+        pass   # Silent fail (required by spec)
