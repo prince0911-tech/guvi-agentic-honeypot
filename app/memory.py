@@ -8,6 +8,8 @@ def get_session(session_id: str):
             "phoneNumbers": [],
             "links": [],
             "keywords": [],
+            "turn": 0,                 # 👈 NEW
+            "stage": "initial",        # 👈 NEW
             "completed": False
         }
     return sessions[session_id]
