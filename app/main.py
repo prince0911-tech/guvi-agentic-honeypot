@@ -5,13 +5,14 @@ from app.detector import detect_scam
 from app.agent import agent_reply
 from app.intelligence import extract_intelligence
 from app.callback import send_final_callback
+from app.schemas import HoneypotRequest
 
 app = FastAPI()
 
 @app.post("/api/honeypot/message")
-def honeypot(payload: dict, _: str = Depends(verify_key)):
-    session_id = payload["sessionId"]
-    message = payload["message"]
+def honeypot(payload: HoneypotRequest, _: str = Depends(verify_key)):
+    session_id = payload.sessionId
+    message = payload.message.dict()
 
     session = get_session(session_id)
     session["messages"].append(message)
